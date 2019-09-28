@@ -5,6 +5,7 @@
     <title>Laravel form builder</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/vue/dist/vue.min.js"></script>
     <script src="node_modules/semantic-ui-css/semantic.min.js"></script>
     <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
 </head>
@@ -22,7 +23,7 @@
                 GitHub
             </a>
             <a class="item">
-                Help
+                Help (wiki)
             </a>
             <div class="right menu">
                 <div class="item">
@@ -34,9 +35,39 @@
             </div>
         </div>
         <div class="ui segment">
-            
+            <div class="ui form">
+                <h4 class="ui dividing header">General setting</h4>
+                <div class="two fields">
+                    <div class="field">
+                        <label for="theme">
+                            Theme
+                        </label>
+                        <select v-model="theme" id="theme" class="ui dropdown">
+                            <option value="bootstrap"> Bootstrap </option>
+                            <option value="semanticui" disabled> SemanticUI </option>
+                            <option value="materialize" disabled> MaterializeCSS </option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="method">
+                            Method
+                        </label>
+                        <select v-model="method" id="method" class="ui dropdown">
+                            <option value="get"> Get </option>
+                            <option value="post"> Post </option>
+                            <option value="put"> Put </option>
+                            <option value="patch"> Patch </option>
+                            <option value="delete"> Delete </option>
+                            <option value="options"> Options </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
+
+
+    <script src="assets/js/engine.js"></script>
 </body>
 </html>

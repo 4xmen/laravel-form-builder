@@ -1,6 +1,14 @@
 @import url(../../node_modules/semantic-ui-css/semantic.min.css);
 @import url(../../node_modules/vazir-font/dist/font-face.css);
 
-*{
+* {
     font-family: Vazir;
+}
+
+h1, h2, h3, h4, h5, h6, input, select {
+    font-family: Vazir !important;
+}
+
+.segment{
+    margin-top: 40px !important;
 }
