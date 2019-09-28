@@ -1,0 +1,33 @@
+{
+  "name": "laravel-form-builder",
+  "version": "1.0.0",
+  "description": "The laravel form builder code generator",
+  "main": "index.htm",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4xmen/laravel-form-builder.git"
+  },
+  "keywords": [
+    "laravel",
+    "form",
+    "jquery",
+    "bootstrap",
+    "semantic",
+    "ui"
+  ],
+  "author": "A1Gard",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/4xmen/laravel-form-builder/issues"
+  },
+  "homepage": "https://github.com/4xmen/laravel-form-builder#readme",
+  "dependencies": {
+    "jquery": "^3.4.1",
+    "semantic-ui-css": "^2.4.1",
+    "vazir-font": "^21.0.1",
+    "vue": "^2.6.10"
+  }
+}

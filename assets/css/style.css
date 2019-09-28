@@ -1,0 +1,6 @@
+@import url(../../node_modules/semantic-ui-css/semantic.min.css);
+@import url(../../node_modules/vazir-font/dist/font-face.css);
+
+*{
+    font-family: Vazir;
+}
