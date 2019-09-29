@@ -1,5 +1,6 @@
 @import url(../../node_modules/semantic-ui-css/semantic.min.css);
 @import url(../../node_modules/vazir-font/dist/font-face.css);
+@import url(hljs/atom-one-dark.css);
 
 * {
     font-family: Vazir;

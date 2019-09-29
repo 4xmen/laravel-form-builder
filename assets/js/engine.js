@@ -158,6 +158,9 @@ var app = new Vue({
             out += `</form>`;
 
             $("#code").text(out);
+            document.querySelectorAll('#code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
         },
         addField: function () {
             this.flds.push(clone(this.raw));
