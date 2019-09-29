@@ -167,6 +167,16 @@ var app = new Vue({
             setTimeout(function () {
                 $('.ui.dropdown').dropdown();
             }, 200);
+        }, removeField: function (i) {
+            var fls = [];
+            for( const k in this.flds) {
+              let itm = this.flds[k] ;
+              if (i != k){
+                  fls.push(itm);
+              }
+            }
+            this.flds = fls ;
+
         }
     }
 });
