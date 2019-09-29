@@ -12,3 +12,15 @@ h1, h2, h3, h4, h5, h6, input, select {
 .segment{
     margin-top: 40px !important;
 }
+
+.gen-field{
+    border: 1px dotted #ddd;
+    padding: 15px 5px ;
+    margin-bottom: 5px;
+}
+
+#code{
+    padding: 10px;
+    background: #111;
+    -ms-overflow-x: scroll;
+}

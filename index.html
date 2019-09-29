@@ -62,10 +62,93 @@
                         </select>
                     </div>
                 </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label for="old">
+                            Old second parameter
+                        </label>
+                        <input type="text" placeholder="$item->#name??null" v-model="old"/>
+                    </div>
+                </div>
+                <h4 class="ui dividing header">Elements</h4>
+                <div v-for="(fld,i) in flds" class="gen-field">
+                    <div class="fields two">
+                        <div class="field required">
+                            <label :for=`type-${i}`>
+                                Type
+                            </label>
+                            <select v-model="fld.type" :id=`type-${i}` class="ui dropdown">
+                                <option v-for="type in typ" :value="type"> {{type}} </option>
+                            </select>
+                        </div>
+                        <div class="field required" v-if="fld.type != 'row'">
+                            <label :for=`name-${i}`>
+                                Name
+                            </label>
+                            <input v-model="fld.name" :id=`name-${i}`>
+                        </div>
+                        <div class="field required" v-if="fld.type != 'row'">
+                            <label :for=`lbl-${i}`>
+                                Label
+                            </label>
+                            <input v-model="fld.label" :id=`lbl-${i}`>
+                        </div>
+                    </div>
+                    <div class="fields" v-if="fld.type != 'row'">
+                        <div class="five wide field required">
+                            <label :for=`size-${i}`>
+                                Size
+                            </label>
+                            <select v-model="fld.size" :id=`size-${i}` class="ui dropdown search">
+                                <option v-for="size in siz" :value="size"> {{size}} </option>
+                            </select>
+                        </div>
+                        <div class="five wide field">
+                            <label :for=`id-${i}`>
+                                ID
+                            </label>
+                            <input v-model="fld.id" :id=`id-${i}`>
+                        </div>
+                        <div class="seven wide field">
+                            <label :for=`opt-${i}`>
+                                Options
+                            </label>
+                            <input v-model="fld.option" :id=`opt-${i}` placeholder="$records:$record:id:title|type">
+                        </div>
+                        <div class="one wide field">
+                            <label> &nbsp;</label>
+                            <div class="button ui red fluid">
+                                <i class="times icon"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="ui button blue" @click="addField">
+                    Add field
+                </div>
+                <div class="ui button green" @click="generateForm">
+                    Generate form
+                </div>
+
             </div>
         </div>
 
+        <div class="ui segment inverted">
+            <h2>
+                Generated Code
+            </h2>
+            <pre id="code">
+                {{code}}
+            </pre>
+        </div>
+        <br>
+        <br>
+        <br>
     </div>
+
 
 
     <script src="assets/js/engine.js"></script>
