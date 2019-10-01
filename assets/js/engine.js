@@ -151,6 +151,7 @@ var app = new Vue({
                         inp += `\t\t\t\t @foreach(${rs} as ${r} ) \n`;
                         inp += `\t\t\t\t\t <option value="{{ ${r}->${key} }}" ${old} > {{${r}->${title}}} </option> \n`;
                         inp += `\t\t\t\t @endforeach \n`;
+                        inp += '</select>';
 
                         out += this.makeLabel(field, inp);
                         break;
