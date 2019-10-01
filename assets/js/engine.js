@@ -18,6 +18,7 @@ var app = new Vue({
         typ: [
             'row',
             'input',
+            'textaera',
             'select',
             'submit'
         ],
@@ -50,7 +51,7 @@ var app = new Vue({
                 field.id = field.name;
             }
 
-            out += `\t\t <div class="col-md-${field.size}">\n`;
+            out += `\t\t <div class="col-md-${field.size} mt-3">\n`;
 
             out += `\t\t\t <label for="${field.id}"> \n`;
             out += `\t\t\t\t {{_('${field.label}')}} \n`;
@@ -107,6 +108,19 @@ var app = new Vue({
                             var genClass = generalClass;
                         }
                         var inp = `\t\t\t <input type="${field.option}" class="${genClass}" placeholder="{{_('${field.label}')}}" value="{{old('${field.name}'${old})}}" /> \n`;
+                        out += this.makeLabel(field, inp);
+                        break;
+                    case 'textaera':
+                        var old = '';
+                        if (this.old.trim() !== '') {
+                            old = ',' + this.old.replace('#name', field.name);
+                        }
+                        if (this.theme == 'bootstrap') {
+                            var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
+                        } else {
+                            var genClass = generalClass;
+                        }
+                        var inp = `\t\t\t <textarea class="${genClass}" placeholder="{{_('${field.label}')}}" >{{old('${field.name}'${old})}}</textarea> \n`;
                         out += this.makeLabel(field, inp);
                         break;
                     case 'select':
