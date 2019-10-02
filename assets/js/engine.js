@@ -7,6 +7,17 @@ function clone(obj) {
     return copy;
 }
 
+
+function downloadObjectAsJson(exportObj, exportName) {
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", exportName + ".json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -187,14 +198,20 @@ var app = new Vue({
             }, 200);
         }, removeField: function (i) {
             var fls = [];
-            for( const k in this.flds) {
-              let itm = this.flds[k] ;
-              if (i != k){
-                  fls.push(itm);
-              }
+            for (const k in this.flds) {
+                let itm = this.flds[k];
+                if (i != k) {
+                    fls.push(itm);
+                }
             }
-            this.flds = fls ;
+            this.flds = fls;
 
+        }, saveJson: function () {
+            var all = {
+                fields: this.flds,
+                old: this.old
+            };
+            downloadObjectAsJson(all, '4xmen-laravel-form-builder-export');
         }
     }
 });
