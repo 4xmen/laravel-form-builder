@@ -8,6 +8,31 @@ function clone(obj) {
 }
 
 
+function init() {
+    document.getElementById('json-file').addEventListener('change', handleFileSelect, false);
+}
+
+function handleFileSelect(event) {
+    const reader = new FileReader();
+    reader.onload = handleFileLoad;
+    reader.readAsText(event.target.files[0]);
+
+}
+
+function handleFileLoad(event) {
+    try {
+        var all = JSON.parse(event.target.result);
+        app.flds = all.fields;
+        app.old = all.old;
+    } catch (e) {
+        console.log(e.message);
+        alert('Input file error');
+    }
+
+    // document.getElementById('fileContent').textContent = ;
+}
+
+
 function downloadObjectAsJson(exportObj, exportName) {
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
     var downloadAnchorNode = document.createElement('a');
@@ -212,6 +237,9 @@ var app = new Vue({
                 old: this.old
             };
             downloadObjectAsJson(all, '4xmen-laravel-form-builder-export');
+        }, loadJson: function () {
+            init();
+            $("#json-file").click();
         }
     }
 });

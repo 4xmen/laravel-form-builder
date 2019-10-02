@@ -135,8 +135,14 @@
                 </div>
 
                 <div class="ui button teal" @click="saveJson">
-                    Save current field
+                    Save current fields to file
                 </div>
+
+                <div class="ui button orange" @click="loadJson">
+                    Load fields form file
+                </div>
+
+                <input type="file" style="display: none" id="json-file"/>
 
             </div>
         </div>
