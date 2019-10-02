@@ -107,7 +107,7 @@ var app = new Vue({
                         } else {
                             var genClass = generalClass;
                         }
-                        var inp = `\t\t\t <input type="${field.option}" class="${genClass}" placeholder="{{_('${field.label}')}}" value="{{old('${field.name}'${old})}}" /> \n`;
+                        var inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}" placeholder="{{_('${field.label}')}}" value="{{old('${field.name}'${old})}}" /> \n`;
                         out += this.makeLabel(field, inp);
                         break;
                     case 'textaera':
@@ -120,7 +120,7 @@ var app = new Vue({
                         } else {
                             var genClass = generalClass;
                         }
-                        var inp = `\t\t\t <textarea class="${genClass}" placeholder="{{_('${field.label}')}}" >{{old('${field.name}'${old})}}</textarea> \n`;
+                        var inp = `\t\t\t <textarea name="${field.name}" class="${genClass}" placeholder="{{_('${field.label}')}}" >{{old('${field.name}'${old})}}</textarea> \n`;
                         out += this.makeLabel(field, inp);
                         break;
                     case 'select':
@@ -131,7 +131,7 @@ var app = new Vue({
                         } else {
                             var genClass = generalClass;
                         }
-                        var inp = `\t\t\t <select id="${field.id}" class="${genClass}" > \n`;
+                        var inp = `\t\t\t <select name="${field.name}" id="${field.id}" class="${genClass}" > \n`;
                         try {
                             var ops = field.option.split(':');
                             var rs = ops[0];
@@ -151,7 +151,7 @@ var app = new Vue({
                         inp += `\t\t\t\t @foreach(${rs} as ${r} ) \n`;
                         inp += `\t\t\t\t\t <option value="{{ ${r}->${key} }}" ${old} > {{${r}->${title}}} </option> \n`;
                         inp += `\t\t\t\t @endforeach \n`;
-                        inp += '</select>';
+                        inp += '\t\t\t </select>';
 
                         out += this.makeLabel(field, inp);
                         break;
@@ -160,7 +160,7 @@ var app = new Vue({
 
                         out += `\t\t\t <label> &nbsp; </label> \n`;
                         var genClass = 'btn btn-primary mt-2';
-                        out += `\t\t\t <input type="submit" class="${genClass}" value="{{_('${field.label}')}}" /> \n`;
+                        out += `\t\t\t <input name="${field.name}" type="submit" class="${genClass}" value="{{_('${field.label}')}}" /> \n`;
                         out += `\t\t </div>\n`;
                         break;
                 }
