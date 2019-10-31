@@ -4,7 +4,7 @@ The laravel form builder code generator
 ## how to use it
 It's so easy, Let's go (O_x) 
 
-![Alt text](laravel-form-bulider-code-screen-shot.png?raw=true "Title")
+![Scrren shot](laravel-form-bulider-code-screen-shot.png?raw=true "Scrrenshot")
 
 
 

@@ -90,7 +90,7 @@ var app = new Vue({
             out += `\t\t <div class="col-md-${field.size} mt-3">\n`;
 
             out += `\t\t\t <label for="${field.id}"> \n`;
-            out += `\t\t\t\t {{_('${field.label}')}} \n`;
+            out += `\t\t\t\t {{__('${field.label}')}} \n`;
             out += `\t\t\t </label> \n`;
 
             out += inp;
@@ -143,7 +143,7 @@ var app = new Vue({
                         } else {
                             var genClass = generalClass;
                         }
-                        var inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}" placeholder="{{_('${field.label}')}}" value="{{old('${field.name}'${old})}}" /> \n`;
+                        var inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}" placeholder="{{__('${field.label}')}}" value="{{old('${field.name}'${old})}}" /> \n`;
                         out += this.makeLabel(field, inp);
                         break;
                     case 'textaera':
@@ -156,7 +156,7 @@ var app = new Vue({
                         } else {
                             var genClass = generalClass;
                         }
-                        var inp = `\t\t\t <textarea name="${field.name}" class="${genClass}" placeholder="{{_('${field.label}')}}" >{{old('${field.name}'${old})}}</textarea> \n`;
+                        var inp = `\t\t\t <textarea name="${field.name}" class="${genClass}" placeholder="{{__('${field.label}')}}" >{{old('${field.name}'${old})}}</textarea> \n`;
                         out += this.makeLabel(field, inp);
                         break;
                     case 'select':
@@ -196,7 +196,7 @@ var app = new Vue({
 
                         out += `\t\t\t <label> &nbsp; </label> \n`;
                         var genClass = 'btn btn-primary mt-2';
-                        out += `\t\t\t <input name="${field.name}" type="submit" class="${genClass}" value="{{_('${field.label}')}}" /> \n`;
+                        out += `\t\t\t <input name="${field.name}" type="submit" class="${genClass}" value="{{__('${field.label}')}}" /> \n`;
                         out += `\t\t </div>\n`;
                         break;
                 }
@@ -240,6 +240,9 @@ var app = new Vue({
         }, loadJson: function () {
             init();
             $("#json-file").click();
+        }, clearAll: function () {
+            this.flds = [];
+            this.old = '';
         }
     }
 });
