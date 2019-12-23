@@ -139,7 +139,11 @@ var app = new Vue({
                             old = ',' + this.old.replace('#name', field.name);
                         }
                         if (this.theme == 'bootstrap') {
-                            var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
+                            if (field.option == 'file'){
+                                var genClass = 'form-control-file' + ` @error('${field.name}') is-invalid @enderror`;
+                            }else{
+                                var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
+                            }
                         } else {
                             var genClass = generalClass;
                         }
