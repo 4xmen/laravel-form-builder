@@ -120,6 +120,9 @@ var app = new Vue({
         }
     }, methods: {
 
+        defaultOld: function () {
+          $("#old").val($("#old").attr('placeholder'));
+        },
         makeLabel: function (field, inp) {
 
             var out = '';

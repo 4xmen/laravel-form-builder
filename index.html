@@ -68,8 +68,18 @@
                         <label for="old">
                             Old second parameter
                         </label>
-                        <input type="text" placeholder="$item->#name??null" v-model="old"/>
+                        <input type="text" id="old" placeholder="$item->#name??null" v-model="old"/>
                     </div>
+                    <div class="field">
+                        <label>
+                            &nbsp;
+                        </label>
+                        <div class="ui button" @click="defaultOld">
+                            &leftarrow;
+                            Default old
+                        </div>
+                    </div>
+
                 </div>
                 <h4 class="ui dividing header">Elements</h4>
                 <div v-for="(fld,i) in flds" class="gen-field">
