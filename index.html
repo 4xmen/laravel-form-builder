@@ -43,9 +43,9 @@
                         <label for="theme">
                             Theme
                         </label>
-                        <select v-model="theme" id="theme" class="ui dropdown">
+                        <select v-model="theme" @change="changeTheme" id="theme" class="ui dropdown">
                             <option value="bootstrap"> Bootstrap </option>
-                            <option value="semanticui" disabled> SemanticUI </option>
+                            <option value="semanticui"> SemanticUI </option>
                             <option value="materialize" disabled> MaterializeCSS </option>
                         </select>
                     </div>

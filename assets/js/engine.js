@@ -1,3 +1,8 @@
+/**
+ * clone function
+ * @param obj
+ * @returns {*}
+ */
 function clone(obj) {
     if (null == obj || "object" != typeof obj) return obj;
     var copy = obj.constructor();
@@ -5,6 +10,30 @@ function clone(obj) {
         if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
     }
     return copy;
+}
+
+/**
+ * for number in function
+ * @type {*[]}
+ */
+var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
+var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+
+/**
+ * number to words
+ * @param num
+ * @returns {string}
+ */
+function inWords (num) {
+    if ((num = num.toString()).length > 9) return 'overflow';
+    n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    if (!n) return; var str = '';
+    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+    str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + '' : '';
+    return str;
 }
 
 
@@ -32,7 +61,11 @@ function handleFileLoad(event) {
     // document.getElementById('fileContent').textContent = ;
 }
 
-
+/**
+ * download json
+ * @param exportObj
+ * @param exportName
+ */
 function downloadObjectAsJson(exportObj, exportName) {
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
     var downloadAnchorNode = document.createElement('a');
@@ -73,10 +106,17 @@ var app = new Vue({
 
     }, computed: {
         siz: function () {
-            if (theme == 'semanticui') {
+            if (this.theme == 'semanticui') {
                 return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
             }
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        },
+        maxSize: function () {
+            if (this.theme == 'semanticui') {
+                return 16;
+            } else {
+                return 12;
+            }
         }
     }, methods: {
 
@@ -87,14 +127,39 @@ var app = new Vue({
                 field.id = field.name;
             }
 
-            out += `\t\t <div class="col-md-${field.size} mt-3">\n`;
 
-            out += `\t\t\t <label for="${field.id}"> \n`;
-            out += `\t\t\t\t {{__('${field.label}')}} \n`;
-            out += `\t\t\t </label> \n`;
+            switch (this.theme) {
+                case "bootstrap":
 
-            out += inp;
-            out += `\t\t </div>\n`;
+                    out += `\t\t <div class="col-md-${field.size} mt-3">\n`;
+                    out += `\t\t\t <div class="form-control">\n`;
+                    out += `\t\t\t\t <label for="${field.id}"> \n`;
+                    out += `\t\t\t\t\t {{__('${field.label}')}} \n`;
+                    out += `\t\t\t\t </label> \n`;
+                    out += inp;
+                    out += `\t\t\t </div>\n`;
+                    out += `\t\t </div>\n`;
+
+                    break;
+                case "semanticui":
+
+                    out += `\t\t <div class="${$.trim(inWords(field.size))} wide column">\n`;
+                    out += `\t\t\t <div class="field">\n`;
+                    out += `\t\t\t\t <label for="${field.id}"> \n`;
+                    out += `\t\t\t\t\t {{__('${field.label}')}} \n`;
+                    out += `\t\t\t\t </label> \n`;
+                    out += `\t\t\t\t <div class="ui input"> \n`;
+                    out += inp;
+                    out += `\t\t\t\t </div> \n`;
+                    out += `\t\t\t </div>\n`;
+                    out += `\t\t </div>\n`;
+
+                    break;
+                default:
+
+            }
+
+
             return out;
         },
         generateForm: function () {
@@ -113,19 +178,30 @@ var app = new Vue({
             var formClass = '';
             var generalClass = '';
             var rowClass = '';
-            if (this.theme == 'bootstrap') {
-                generalClass = 'form-control';
-                rowClass = 'form-group row';
+            switch (this.theme) {
+                case "bootstrap":
+                    generalClass = 'form-control';
+                    rowClass = 'form-group row';
+                    break;
+                case "semanticui":
+                    generalClass = '';
+                    rowClass = 'ui grid';
+                    formClass = 'ui form';
+                    break;
+                default:
+                    console.log('unknow theme');
             }
 
             // make form html
-            out += `<form method="${method}" action=""> \n`;
+            out += `<form class="${formClass}" method="${method}" action=""> \n`;
             out += `\t @csrf \n`;
             out += `\t ${extMethod} \n`;
             for (const i in this.flds) {
                 var field = this.flds[i];
                 switch (field.type) {
                     case "row":
+
+                        // check before this we have row or not
                         if (hasRowBefore) {
                             out += `\t </div>\n`;
                         } else {
@@ -138,15 +214,24 @@ var app = new Vue({
                         if (this.old.trim() !== '') {
                             old = ',' + this.old.replace('#name', field.name);
                         }
+
+                        // handle bootstrap class
                         if (this.theme == 'bootstrap') {
-                            if (field.option == 'file'){
+                            if (field.option == 'file') {
                                 var genClass = 'form-control-file' + ` @error('${field.name}') is-invalid @enderror`;
-                            }else{
+                            } else {
                                 var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
                             }
+                        } else
+
+                        // handle bootstrap class
+                        if (this.theme == 'semanticui') {
+                            var genClass = ` @error('${field.name}') error @enderror`;
                         } else {
                             var genClass = generalClass;
                         }
+
+
                         var inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}" placeholder="{{__('${field.label}')}}" value="{{old('${field.name}'${old})}}" /> \n`;
                         out += this.makeLabel(field, inp);
                         break;
@@ -155,22 +240,40 @@ var app = new Vue({
                         if (this.old.trim() !== '') {
                             old = ',' + this.old.replace('#name', field.name);
                         }
+
+                        // handle bootstrap class
                         if (this.theme == 'bootstrap') {
                             var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
+                        } else
+
+                        // handle bootstrap class
+                        if (this.theme == 'semanticui') {
+                            var genClass = ` @error('${field.name}') error @enderror`;
                         } else {
                             var genClass = generalClass;
                         }
+
+
+
                         var inp = `\t\t\t <textarea name="${field.name}" class="${genClass}" placeholder="{{__('${field.label}')}}" >{{old('${field.name}'${old})}}</textarea> \n`;
                         out += this.makeLabel(field, inp);
                         break;
                     case 'select':
                         var old = '';
 
+                        // handle bootstrap class
                         if (this.theme == 'bootstrap') {
                             var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
+                        } else
+                        // handle bootstrap class
+                        if (this.theme == 'semanticui') {
+                            var genClass = 'ui dropdown' + ` @error('${field.name}') error @enderror`;
                         } else {
                             var genClass = generalClass;
                         }
+
+
+
                         var inp = `\t\t\t <select name="${field.name}" id="${field.id}" class="${genClass}" > \n`;
                         try {
                             var ops = field.option.split(':');
@@ -188,6 +291,8 @@ var app = new Vue({
                         } else {
                             old = ` @if (old('${field.name}') == ${r}->${key} ) selected @endif`;
                         }
+
+
                         inp += `\t\t\t\t @foreach(${rs} as ${r} ) \n`;
                         inp += `\t\t\t\t\t <option value="{{ ${r}->${key} }}" ${old} > {{${r}->${title}}} </option> \n`;
                         inp += `\t\t\t\t @endforeach \n`;
@@ -196,10 +301,23 @@ var app = new Vue({
                         out += this.makeLabel(field, inp);
                         break;
                     case 'submit':
-                        out += `\t\t <div class="col-md-${field.size}">\n`;
+
+                        switch (this.theme) {
+                            case "bootstrap":
+                                out += `\t\t <div class="col-md-${field.size}">\n`;
+                                var genClass = 'btn btn-primary mt-2';
+
+                                break;
+                            case "semanticui":
+                                out += `\t\t <div class="ui wide column sixteen">\n`;
+                                var genClass = 'ui button blue';
+                                break;
+                            default:
+                                console.log('unknow theme');
+                        }
+
 
                         out += `\t\t\t <label> &nbsp; </label> \n`;
-                        var genClass = 'btn btn-primary mt-2';
                         out += `\t\t\t <input name="${field.name}" type="submit" class="${genClass}" value="{{__('${field.label}')}}" /> \n`;
                         out += `\t\t </div>\n`;
                         break;
@@ -218,6 +336,7 @@ var app = new Vue({
             });
         },
         addField: function () {
+            this.raw.size = this.maxSize;
             this.flds.push(clone(this.raw));
             this.initSemanticui();
         },
@@ -247,6 +366,7 @@ var app = new Vue({
         }, clearAll: function () {
             this.flds = [];
             this.old = '';
+        }, changeTheme: function () {
         }
     }
 });
