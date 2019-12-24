@@ -16,18 +16,19 @@ function clone(obj) {
  * for number in function
  * @type {*[]}
  */
-var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
-var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
+var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
 /**
  * number to words
  * @param num
  * @returns {string}
  */
-function inWords (num) {
+function inWords(num) {
     if ((num = num.toString()).length > 9) return 'overflow';
     n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-    if (!n) return; var str = '';
+    if (!n) return;
+    var str = '';
     str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
     str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
     str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
@@ -41,6 +42,10 @@ function init() {
     document.getElementById('json-file').addEventListener('change', handleFileSelect, false);
 }
 
+/**
+ * handle file selected
+ * @param event
+ */
 function handleFileSelect(event) {
     const reader = new FileReader();
     reader.onload = handleFileLoad;
@@ -48,6 +53,10 @@ function handleFileSelect(event) {
 
 }
 
+/**
+ * handl file loads
+ * @param event
+ */
 function handleFileLoad(event) {
     try {
         var all = JSON.parse(event.target.result);
@@ -80,10 +89,11 @@ var app = new Vue({
     el: '#app',
     data: {
         code: '',
-        theme: 'bootstrap',
-        method: 'get',
+        theme: 'bootstrap', // default theme
+        method: 'get', // default methods
         old: '',
-        flds: [],
+        flds: [], // list of field
+        // type of inputs
         typ: [
             'row',
             'input',
@@ -91,6 +101,7 @@ var app = new Vue({
             'select',
             'submit'
         ],
+        // raw field for edit
         raw: {
             type: 'input',
             name: '',
@@ -105,12 +116,15 @@ var app = new Vue({
         this.initSemanticui();
 
     }, computed: {
+        // size for handle
         siz: function () {
             if (this.theme == 'semanticui') {
                 return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
             }
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
         },
+
+        // calculate max column count
         maxSize: function () {
             if (this.theme == 'semanticui') {
                 return 16;
@@ -120,12 +134,15 @@ var app = new Vue({
         }
     }, methods: {
 
+        // set old default
         defaultOld: function () {
-          $("#old").val($("#old").attr('placeholder'));
+            $("#old").val($("#old").attr('placeholder'));
         },
+        // make labael
         makeLabel: function (field, inp) {
 
             var out = '';
+            // set default id
             if (field.id.trim() == '') {
                 field.id = field.name;
             }
@@ -133,7 +150,7 @@ var app = new Vue({
 
             switch (this.theme) {
                 case "bootstrap":
-
+                    // make bootstrap column
                     out += `\t\t <div class="col-md-${field.size} mt-3">\n`;
                     out += `\t\t\t <div class="form-control">\n`;
                     out += `\t\t\t\t <label for="${field.id}"> \n`;
@@ -145,14 +162,14 @@ var app = new Vue({
 
                     break;
                 case "semanticui":
-
+                    // make semanticui column
                     out += `\t\t <div class="${$.trim(inWords(field.size))} wide column">\n`;
                     out += `\t\t\t <div class="field">\n`;
                     out += `\t\t\t\t <label for="${field.id}"> \n`;
                     out += `\t\t\t\t\t {{__('${field.label}')}} \n`;
                     out += `\t\t\t\t </label> \n`;
                     out += `\t\t\t\t <div class="ui input"> \n`;
-                    out += inp;
+                    out += '\t\t' + inp;
                     out += `\t\t\t\t </div> \n`;
                     out += `\t\t\t </div>\n`;
                     out += `\t\t </div>\n`;
@@ -165,6 +182,8 @@ var app = new Vue({
 
             return out;
         },
+
+        // generate form
         generateForm: function () {
             var out = '';
             var hasRowBefore = false;
@@ -177,10 +196,12 @@ var app = new Vue({
                     extMethod = `@method('${this.method.toUpperCase()}')`;
                 }
             }
-            // make class
+            // make reset class
             var formClass = '';
             var generalClass = '';
             var rowClass = '';
+
+            // make default classes
             switch (this.theme) {
                 case "bootstrap":
                     generalClass = 'form-control';
@@ -199,8 +220,10 @@ var app = new Vue({
             out += `<form class="${formClass}" method="${method}" action=""> \n`;
             out += `\t @csrf \n`;
             out += `\t ${extMethod} \n`;
-            for (const i in this.flds) {
-                var field = this.flds[i];
+
+            // loop fields make
+            for (const field of this.flds) {
+                // var field = this.flds[i]; // must remove in next major version this comment
                 switch (field.type) {
                     case "row":
 
@@ -210,9 +233,11 @@ var app = new Vue({
                         } else {
                             hasRowBefore = true;
                         }
+                        // make grid row
                         out += `\t <div class="${rowClass}">\n`;
                         break;
                     case 'input':
+
                         var old = '';
                         if (this.old.trim() !== '') {
                             old = ',' + this.old.replace('#name', field.name);
@@ -226,7 +251,6 @@ var app = new Vue({
                                 var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
                             }
                         } else
-
                         // handle bootstrap class
                         if (this.theme == 'semanticui') {
                             var genClass = ` @error('${field.name}') error @enderror`;
@@ -238,6 +262,8 @@ var app = new Vue({
                         var inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}" placeholder="{{__('${field.label}')}}" value="{{old('${field.name}'${old})}}" /> \n`;
                         out += this.makeLabel(field, inp);
                         break;
+
+
                     case 'textaera':
                         var old = '';
                         if (this.old.trim() !== '') {
@@ -257,7 +283,6 @@ var app = new Vue({
                         }
 
 
-
                         var inp = `\t\t\t <textarea name="${field.name}" class="${genClass}" placeholder="{{__('${field.label}')}}" >{{old('${field.name}'${old})}}</textarea> \n`;
                         out += this.makeLabel(field, inp);
                         break;
@@ -274,7 +299,6 @@ var app = new Vue({
                         } else {
                             var genClass = generalClass;
                         }
-
 
 
                         var inp = `\t\t\t <select name="${field.name}" id="${field.id}" class="${genClass}" > \n`;
@@ -338,16 +362,20 @@ var app = new Vue({
                 hljs.highlightBlock(block);
             });
         },
+        // add field
         addField: function () {
             this.raw.size = this.maxSize;
             this.flds.push(clone(this.raw));
             this.initSemanticui();
         },
+        // initial semantic ui
         initSemanticui: function () {
             setTimeout(function () {
                 $('.ui.dropdown').dropdown();
             }, 200);
-        }, removeField: function (i) {
+        },
+        // remove filed from fields
+        removeField: function (i) {
             var fls = [];
             for (const k in this.flds) {
                 let itm = this.flds[k];
@@ -357,19 +385,26 @@ var app = new Vue({
             }
             this.flds = fls;
 
-        }, saveJson: function () {
+        },
+        // save json
+        saveJson: function () {
             var all = {
                 fields: this.flds,
                 old: this.old
             };
             downloadObjectAsJson(all, '4xmen-laravel-form-builder-export');
-        }, loadJson: function () {
+        },
+        // load json
+        loadJson: function () {
             init();
             $("#json-file").click();
-        }, clearAll: function () {
+        },
+        // clear all fields
+        clearAll: function () {
             this.flds = [];
             this.old = '';
-        }, changeTheme: function () {
+        },
+        changeTheme: function () {
         }
     }
 });

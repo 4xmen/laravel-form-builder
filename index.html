@@ -62,21 +62,20 @@
                             <option value="options"> Options </option>
                         </select>
                     </div>
-                </div>
-                <div class="two fields">
+<!--                </div>-->
+<!--                <div class="two fields">-->
                     <div class="field">
                         <label for="old">
                             Old second parameter
                         </label>
-                        <input type="text" id="old" placeholder="$item->#name??null" v-model="old"/>
-                    </div>
-                    <div class="field">
-                        <label>
-                            &nbsp;
-                        </label>
-                        <div class="ui button" @click="defaultOld">
-                            &leftarrow;
-                            Default old
+
+
+
+                        <div class="ui right labeled  input">
+                            <input type="text" id="old" placeholder="$item->#name??null" v-model="old"/>
+                            <a class="ui button grey"  @click="defaultOld" title="Default old">
+                                &leftarrow; Def
+                            </a>
                         </div>
                     </div>
 
