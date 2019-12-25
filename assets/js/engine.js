@@ -175,6 +175,17 @@ var app = new Vue({
                     out += `\t\t </div>\n`;
 
                     break;
+                case "materialize":
+                    // make bootstrap column
+                    out += `\t\t <div class="input-field col s${field.size}">\n`;
+                    out += inp;
+                    out += `\t\t\t\t <label for="${field.id}"> \n`;
+                    out += `\t\t\t\t\t {{__('${field.label}')}} \n`;
+                    out += `\t\t\t\t </label> \n`;
+
+                    out += `\t\t </div>\n`;
+
+                    break;
                 default:
 
             }
@@ -211,6 +222,11 @@ var app = new Vue({
                     generalClass = '';
                     rowClass = 'ui grid';
                     formClass = 'ui form';
+                    break;
+                case "materialize":
+                    generalClass = '';
+                    rowClass = 'row';
+                    formClass = '';
                     break;
                 default:
                     console.log('unknow theme');
@@ -255,7 +271,7 @@ var app = new Vue({
                         if (this.theme == 'semanticui') {
                             var genClass = ` @error('${field.name}') error @enderror`;
                         } else {
-                            var genClass = generalClass;
+                            var genClass = generalClass + ` @error('${field.name}') invalid @enderror`;
                         }
 
 
@@ -279,7 +295,7 @@ var app = new Vue({
                         if (this.theme == 'semanticui') {
                             var genClass = ` @error('${field.name}') error @enderror`;
                         } else {
-                            var genClass = generalClass;
+                            var genClass =  `materialize-textarea @error('${field.name}') invalid @enderror`;
                         }
 
 
@@ -297,7 +313,7 @@ var app = new Vue({
                         if (this.theme == 'semanticui') {
                             var genClass = 'ui dropdown' + ` @error('${field.name}') error @enderror`;
                         } else {
-                            var genClass = generalClass;
+                            var genClass = generalClass + ` @error('${field.name}') invalid @enderror`;
                         }
 
 
