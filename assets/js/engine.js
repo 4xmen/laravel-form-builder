@@ -205,7 +205,7 @@ var app = new Vue({
             switch (this.theme) {
                 case "bootstrap":
                     generalClass = 'form-control';
-                    rowClass = 'form-group row';
+                    rowClass = 'row';
                     break;
                 case "semanticui":
                     generalClass = '';
