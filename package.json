@@ -1,6 +1,6 @@
 {
   "name": "laravel-form-builder",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "The laravel form builder code generator",
   "main": "index.htm",
   "scripts": {

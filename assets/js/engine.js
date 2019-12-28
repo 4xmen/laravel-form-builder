@@ -136,7 +136,7 @@ var app = new Vue({
 
         // set old default
         defaultOld: function () {
-            $("#old").val($("#old").attr('placeholder'));
+            this.old = $("#old").attr('placeholder');
         },
         // make labael
         makeLabel: function (field, inp) {
@@ -152,7 +152,7 @@ var app = new Vue({
                 case "bootstrap":
                     // make bootstrap column
                     out += `\t\t <div class="col-md-${field.size} mt-3">\n`;
-                    out += `\t\t\t <div class="form-control">\n`;
+                    out += `\t\t\t <div class="form-group">\n`;
                     out += `\t\t\t\t <label for="${field.id}"> \n`;
                     out += `\t\t\t\t\t {{__('${field.label}')}} \n`;
                     out += `\t\t\t\t </label> \n`;
