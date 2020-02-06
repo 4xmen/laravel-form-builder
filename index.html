@@ -91,7 +91,7 @@
                                 <option v-for="type in typ" :value="type"> {{type}} </option>
                             </select>
                         </div>
-                        <div class="field required" v-if="fld.type != 'row'">
+                        <div class="field required" v-if="fld.type != 'row' && fld.type != 'form-divider'">
                             <label :for=`name-${i}`>
                                 Name
                             </label>
@@ -104,7 +104,7 @@
                             <input v-model="fld.label" :id=`lbl-${i}`>
                         </div>
                     </div>
-                    <div class="fields" v-if="fld.type != 'row'">
+                    <div class="fields" v-if="fld.type != 'row' && fld.type != 'form-divider'">
                         <div class="five wide field required">
                             <label :for=`size-${i}`>
                                 Size
