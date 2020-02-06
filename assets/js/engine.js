@@ -356,6 +356,10 @@ var app = new Vue({
                                 out += `\t\t <div class="ui wide column sixteen">\n`;
                                 var genClass = 'ui button blue';
                                 break;
+                            case "materialize":
+                                out += `\t\t <div class="col s12"> \n`;
+                                var genClass = 'waves-effect waves-light btn';
+                                break;
                             default:
                                 console.log('unknow theme');
                         }
