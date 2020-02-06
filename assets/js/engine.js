@@ -99,7 +99,8 @@ var app = new Vue({
             'input',
             'textaera',
             'select',
-            'submit'
+            'submit',
+            'form-divider',
         ],
         // raw field for edit
         raw: {
@@ -354,6 +355,32 @@ var app = new Vue({
                             case "semanticui":
                                 out += `\t\t <div class="ui wide column sixteen">\n`;
                                 var genClass = 'ui button blue';
+                                break;
+                            default:
+                                console.log('unknow theme');
+                        }
+
+
+                        out += `\t\t\t <label> &nbsp; </label> \n`;
+                        out += `\t\t\t <input name="${field.name}" type="submit" class="${genClass}" value="{{__('${field.label}')}}" /> \n`;
+                        out += `\t\t </div>\n`;
+                        break;
+                    case  'form-divider':
+
+                        switch (this.theme) {
+                            case "bootstrap":
+                                out += `\t </div> \n \t <div class="row"> \n`;
+                                out += `\t\t <div class="col"><hr></div> \n`;
+                                out += `\t\t <div class="col-auto">{{__('${field.label}')}}</div> \n`;
+                                out += `\t\t <div class="col"><hr></div> \n`;
+                                out += `\t </div> \n \t <div class="row"> \n`;
+
+                                break;
+                            case "semanticui":
+                                out += `\t\t <h4 class="ui dividing header">{__('${field.label}')}}</h4>\n`;
+                                break;
+                            case "materialize":
+                                out += `\t\t <h5 >{__('${field.label}')}}</h5> <hr />\n`;
                                 break;
                             default:
                                 console.log('unknow theme');
