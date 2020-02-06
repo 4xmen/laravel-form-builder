@@ -1,8 +1,27 @@
 # laravel-form-builder
 The laravel form builder code generator
+ 
+**_The generated form can be use in `CREATE FORM` and `EDIT FORM` together._**
+ 
+## supported frameworks
+- Bootstrap 3.x, 4.x
+- Semantic UI all version
+- Materialize css all version 
+
+# supported elements & etc.
+- row and columns
+- input (all type)
+- select (full auto generate )
+- textarea
+- submit 
+- form divider
+- all form methods
+
+
 
 ## how to use it
 It's so easy, Let's go (O_x) 
+
 
 ![Scrren shot](laravel-form-bulider-code-screen-shot.png?raw=true "Scrrenshot")
 
@@ -16,7 +35,7 @@ git clone https://gitgo.ir/4xmen/laravel-form-builder.git
 ```
 
 ### install dependencies:
-
+in project folder: (command to change folder `cd laravel-form-builder`)
 ```shell script
   npm install
  ```
@@ -24,6 +43,10 @@ git clone https://gitgo.ir/4xmen/laravel-form-builder.git
 ## how run it
 open `index.html`
 
+If you like it just star project to support us. 
+
 ## website
 
 cheers the 4xmen team :-P
+
+http://4xmen.ir
