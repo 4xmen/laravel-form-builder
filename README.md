@@ -19,9 +19,11 @@ The laravel form builder code generator
 
 
 
-## how to use it
-It's so easy, Let's go (O_x) 
-
+## How to use it
+It's so easy, Let's go (O_x)
+ 
+ ## Online demo
+http://4xmen.ir/laravel-form-builder/
 
 ![Scrren shot](laravel-form-bulider-code-screen-shot.png?raw=true "Scrrenshot")
 
