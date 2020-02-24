@@ -131,7 +131,25 @@
                                 <i class="times icon"></i>
                             </div>
                         </div>
+                        <div class="two wide field">
+                            <label> &nbsp;</label>
+                            <div class="ui button green fluid" title="Add additional attributes"  @click="addAttr(i)">+ Attr</div>
+                        </div>
 
+
+
+                    </div>
+                    <div class="three fields">
+                        <div class="field attr-base" v-for="attr in fld.others">
+                            <div class="ui grid ">
+                                <div class="eight wide column">
+                                    <input type="text" placeholder="Name of attribute" v-model="attr.name"/>
+                                </div>
+                                <div class="eight wide column">
+                                    <input type="text" placeholder="Value of attribute " v-model="attr.value"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <br>

@@ -60,6 +60,14 @@ function handleFileSelect(event) {
 function handleFileLoad(event) {
     try {
         var all = JSON.parse(event.target.result);
+        // fix for version <= 2.1
+        // fixing json info
+        for (const f of all.fields) {
+            if (f.others == undefined) {
+                f.others = [];
+            }
+        }
+
         app.flds = all.fields;
         app.old = all.old;
     } catch (e) {
@@ -109,7 +117,8 @@ var app = new Vue({
             label: '',
             size: 12,
             id: '',
-            options: ''
+            options: '',
+            // others: [] // additional
         }
     },
     mounted() {
@@ -240,6 +249,18 @@ var app = new Vue({
 
             // loop fields make
             for (const field of this.flds) {
+
+                var additinalCls = '';
+                var attrs = '';
+                for( const oth of field.others) {
+                   if (oth.name == 'class'){
+                       additinalCls = ' '+oth.value;
+                   }else{
+                       attrs += ' '+oth.name+'="'+oth.value+'"';
+                   }
+                }
+
+
                 // var field = this.flds[i]; // must remove in next major version this comment
                 switch (field.type) {
                     case "row":
@@ -251,6 +272,7 @@ var app = new Vue({
                             hasRowBefore = true;
                         }
                         // make grid row
+                        rowClass += additinalCls;
                         out += `\t <div class="${rowClass}">\n`;
                         break;
                     case 'input':
@@ -268,15 +290,16 @@ var app = new Vue({
                                 var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
                             }
                         } else
-                        // handle bootstrap class
+                            // handle bootstrap class
                         if (this.theme == 'semanticui') {
                             var genClass = ` @error('${field.name}') error @enderror`;
                         } else {
                             var genClass = generalClass + ` @error('${field.name}') invalid @enderror`;
                         }
 
+                        genClass += additinalCls;
 
-                        var inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}" placeholder="{{__('${field.label}')}}" value="{{old('${field.name}'${old})}}" /> \n`;
+                        var inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}" placeholder="{{__('${field.label}')}}" value="{{old('${field.name}'${old})}}" ${attrs} /> \n`;
                         out += this.makeLabel(field, inp);
                         break;
 
@@ -292,15 +315,16 @@ var app = new Vue({
                             var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
                         } else
 
-                        // handle bootstrap class
+                            // handle bootstrap class
                         if (this.theme == 'semanticui') {
                             var genClass = ` @error('${field.name}') error @enderror`;
                         } else {
-                            var genClass =  `materialize-textarea @error('${field.name}') invalid @enderror`;
+                            var genClass = `materialize-textarea @error('${field.name}') invalid @enderror`;
                         }
 
+                        genClass += additinalCls;
 
-                        var inp = `\t\t\t <textarea name="${field.name}" class="${genClass}" placeholder="{{__('${field.label}')}}" >{{old('${field.name}'${old})}}</textarea> \n`;
+                        var inp = `\t\t\t <textarea name="${field.name}" class="${genClass}" placeholder="{{__('${field.label}')}}"  ${attrs}>{{old('${field.name}'${old})}}</textarea> \n`;
                         out += this.makeLabel(field, inp);
                         break;
                     case 'select':
@@ -310,15 +334,15 @@ var app = new Vue({
                         if (this.theme == 'bootstrap') {
                             var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
                         } else
-                        // handle bootstrap class
+                            // handle bootstrap class
                         if (this.theme == 'semanticui') {
                             var genClass = 'ui dropdown' + ` @error('${field.name}') error @enderror`;
                         } else {
                             var genClass = generalClass + ` @error('${field.name}') invalid @enderror`;
                         }
 
-
-                        var inp = `\t\t\t <select name="${field.name}" id="${field.id}" class="${genClass}" > \n`;
+                        genClass += additinalCls;
+                        var inp = `\t\t\t <select name="${field.name}" id="${field.id}" class="${genClass}"  ${attrs} > \n`;
                         try {
                             var ops = field.option.split(':');
                             var rs = ops[0];
@@ -365,8 +389,9 @@ var app = new Vue({
                         }
 
 
+                        genClass += additinalCls;
                         out += `\t\t\t <label> &nbsp; </label> \n`;
-                        out += `\t\t\t <input name="${field.name}" type="submit" class="${genClass}" value="{{__('${field.label}')}}" /> \n`;
+                        out += `\t\t\t <input name="${field.name}" type="submit" class="${genClass}" value="{{__('${field.label}')}}"  ${attrs} /> \n`;
                         out += `\t\t </div>\n`;
                         break;
                     case  'form-divider':
@@ -375,25 +400,20 @@ var app = new Vue({
                             case "bootstrap":
                                 out += `\t </div> \n \t <div class="row"> \n`;
                                 out += `\t\t <div class="col"><hr></div> \n`;
-                                out += `\t\t <div class="col-auto">{{__('${field.label}')}}</div> \n`;
+                                out += `\t\t <div class="col-auto"><span  ${attrs}  class="${additinalCls}">{{__('${field.label}')}}</span></div> \n`;
                                 out += `\t\t <div class="col"><hr></div> \n`;
                                 out += `\t </div> \n \t <div class="row"> \n`;
 
                                 break;
                             case "semanticui":
-                                out += `\t\t <h4 class="ui dividing header">{__('${field.label}')}}</h4>\n`;
+                                out += `\t\t <h4   ${attrs}  class="ui dividing header ${additinalCls}">{__('${field.label}')}}</h4>\n`;
                                 break;
                             case "materialize":
-                                out += `\t\t <h5 >{__('${field.label}')}}</h5> <hr />\n`;
+                                out += `\t\t <h5  ${attrs}  class="${additinalCls}" >{__('${field.label}')}}</h5> <hr />\n`;
                                 break;
                             default:
                                 console.log('unknow theme');
                         }
-
-
-                        out += `\t\t\t <label> &nbsp; </label> \n`;
-                        out += `\t\t\t <input name="${field.name}" type="submit" class="${genClass}" value="{{__('${field.label}')}}" /> \n`;
-                        out += `\t\t </div>\n`;
                         break;
                 }
             }
@@ -412,7 +432,9 @@ var app = new Vue({
         // add field
         addField: function () {
             this.raw.size = this.maxSize;
-            this.flds.push(clone(this.raw));
+            var tmp = clone(this.raw);
+            tmp.others = [];
+            this.flds.push(tmp);
             this.initSemanticui();
         },
         // initial semantic ui
@@ -431,6 +453,16 @@ var app = new Vue({
                 }
             }
             this.flds = fls;
+
+        },
+        // add attrib to filed from fields
+        addAttr: function (i) {
+            this.flds[i].others.push(
+                clone({
+                    'name': '',
+                    'value': ''
+                })
+            );
 
         },
         // save json

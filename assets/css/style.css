@@ -20,6 +20,12 @@ h1, h2, h3, h4, h5, h6, input, select {
     margin-bottom: 5px;
 }
 
+.attr-base{
+    border: 1px dashed silver;
+    margin-bottom: 0;
+    padding: 10px 0;
+}
+
 #code{
     padding: 10px;
     background: #111;
