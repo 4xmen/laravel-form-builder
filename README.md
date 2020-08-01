@@ -16,6 +16,7 @@ The laravel form builder code generator
 - submit 
 - form divider
 - all form methods
+- move elements
 
 
 
