@@ -13,6 +13,24 @@ function clone(obj) {
 }
 
 /**
+ * move array object
+ * @param arr
+ * @param old_index
+ * @param new_index
+ * @returns {*}
+ */
+function arrayMove(arr, old_index, new_index) {
+    if (new_index >= arr.length) {
+        var k = new_index - arr.length + 1;
+        while (k--) {
+            arr.push(undefined);
+        }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr; // for testing
+}
+
+/**
  * for number in function
  * @type {*[]}
  */
@@ -143,7 +161,6 @@ var app = new Vue({
             }
         }
     }, methods: {
-
         // set old default
         defaultOld: function () {
             this.old = $("#old").attr('placeholder');
@@ -252,12 +269,12 @@ var app = new Vue({
 
                 var additinalCls = '';
                 var attrs = '';
-                for( const oth of field.others) {
-                   if (oth.name == 'class'){
-                       additinalCls = ' '+oth.value;
-                   }else{
-                       attrs += ' '+oth.name+'="'+oth.value+'"';
-                   }
+                for (const oth of field.others) {
+                    if (oth.name == 'class') {
+                        additinalCls = ' ' + oth.value;
+                    } else {
+                        attrs += ' ' + oth.name + '="' + oth.value + '"';
+                    }
                 }
 
 
@@ -455,6 +472,26 @@ var app = new Vue({
             this.flds = fls;
 
         },
+        // move to top item
+        goUp: function (i) {
+            let tmp = arrayMove(this.flds, i, i - 1);
+            this.flds = [];
+            var self = this;
+            setTimeout(function () {
+                self.flds = tmp;
+                self.$forceUpdate();
+            }, 50);
+        },
+        // move to top item
+        goDown: function (i) {
+            let tmp = arrayMove(this.flds, i, i + 1);
+            this.flds = [];
+            var self = this;
+            setTimeout(function () {
+                self.flds = tmp;
+                self.$forceUpdate();
+            }, 50);
+        },
         // add attrib to filed from fields
         addAttr: function (i) {
             this.flds[i].others.push(
@@ -484,7 +521,8 @@ var app = new Vue({
             this.old = '';
         },
         changeTheme: function () {
-        }
-    }
+        },
+    },
+
 });
 

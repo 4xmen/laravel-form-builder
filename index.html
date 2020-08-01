@@ -82,13 +82,19 @@
                 </div>
                 <h4 class="ui dividing header">Elements</h4>
                 <div v-for="(fld,i) in flds" class="gen-field">
+                    <div style="padding-bottom: 15px;" v-if="flds.length > 1">
+                        <div class="ui buttons">
+                            <button v-if="i != 0" @click="goUp(i)" class="ui button inverted green"> &uparrow; </button>
+                            <button v-if="i != flds.length-1" @click="goDown(i)"  class="ui button inverted red"> &downarrow; </button>
+                        </div>
+                    </div>
                     <div class="fields two">
                         <div class="field required">
                             <label :for=`type-${i}`>
                                 Type
                             </label>
-                            <select v-model="fld.type" :id=`type-${i}` class="ui dropdown">
-                                <option v-for="type in typ" :value="type"> {{type}} </option>
+                            <select v-model="fld.type" :id=`type-${i}`  class="ui dropdown type-cls">
+                                <option v-for="type in typ"  :value="type" > {{type}} </option>
                             </select>
                         </div>
                         <div class="field required" v-if="fld.type != 'row' && fld.type != 'form-divider'">
