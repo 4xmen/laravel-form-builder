@@ -277,6 +277,10 @@ var app = new Vue({
                     }
                 }
 
+                if(field.id == ''){
+                    field.id = field.name;
+                }
+
 
                 // var field = this.flds[i]; // must remove in next major version this comment
                 switch (field.type) {
@@ -303,7 +307,9 @@ var app = new Vue({
                         if (this.theme == 'bootstrap') {
                             if (field.option == 'file') {
                                 var genClass = 'form-control-file' + ` @error('${field.name}') is-invalid @enderror`;
-                            } else {
+                            } else if (field.option == 'checkbox') {
+                                var genClass = 'float-left ml-4 mt-1 form-check-inline' + ` @error('${field.name}') is-invalid @enderror`;
+                            } else{
                                 var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
                             }
                         } else
@@ -317,6 +323,9 @@ var app = new Vue({
                         genClass += additinalCls;
 
                         var inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}"  id="${field.id}" placeholder="{{__('${field.label}')}}" value="{{old('${field.name}'${old})}}" ${attrs} /> \n`;
+                        if (field.option == 'checkbox') {
+                            inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}"  id="${field.id}"  @if (old('${field.name}'${old}) != null) checked @endif value="1" ${attrs} /> \n`;
+                        }
                         out += this.makeLabel(field, inp);
                         break;
 
