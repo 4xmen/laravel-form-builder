@@ -16,6 +16,7 @@
     "jquery",
     "bootstrap",
     "semantic",
+    "materializecss",
     "ui"
   ],
   "author": "A1Gard",

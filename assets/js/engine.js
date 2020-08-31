@@ -316,7 +316,7 @@ var app = new Vue({
 
                         genClass += additinalCls;
 
-                        var inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}" placeholder="{{__('${field.label}')}}" value="{{old('${field.name}'${old})}}" ${attrs} /> \n`;
+                        var inp = `\t\t\t <input name="${field.name}" type="${field.option}" class="${genClass}"  id="${field.id}" placeholder="{{__('${field.label}')}}" value="{{old('${field.name}'${old})}}" ${attrs} /> \n`;
                         out += this.makeLabel(field, inp);
                         break;
 
@@ -341,7 +341,7 @@ var app = new Vue({
 
                         genClass += additinalCls;
 
-                        var inp = `\t\t\t <textarea name="${field.name}" class="${genClass}" placeholder="{{__('${field.label}')}}"  ${attrs}>{{old('${field.name}'${old})}}</textarea> \n`;
+                        var inp = `\t\t\t <textarea name="${field.name}"  id="${field.id}" class="${genClass}" placeholder="{{__('${field.label}')}}"  ${attrs}>{{old('${field.name}'${old})}}</textarea> \n`;
                         out += this.makeLabel(field, inp);
                         break;
                     case 'select':
@@ -408,7 +408,7 @@ var app = new Vue({
 
                         genClass += additinalCls;
                         out += `\t\t\t <label> &nbsp; </label> \n`;
-                        out += `\t\t\t <input name="${field.name}" type="submit" class="${genClass}" value="{{__('${field.label}')}}"  ${attrs} /> \n`;
+                        out += `\t\t\t <input name="${field.name}"  id="${field.id}" type="submit" class="${genClass}" value="{{__('${field.label}')}}"  ${attrs} /> \n`;
                         out += `\t\t </div>\n`;
                         break;
                     case  'form-divider':
