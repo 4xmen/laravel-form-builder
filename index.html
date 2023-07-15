@@ -189,8 +189,12 @@
         </div>
 
         <div class="ui segment inverted">
-            <h2>
+            <h2 >
                 Generated Code
+                <div class="right floated ui button olive" @click="copy">
+                    &nbsp;
+                    <i class="copy outline icon"></i>
+                </div>
             </h2>
             <pre id="code">
                 {{code}}

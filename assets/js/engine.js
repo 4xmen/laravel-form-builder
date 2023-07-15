@@ -119,6 +119,7 @@ var app = new Vue({
         method: 'get', // default methods
         old: '',
         flds: [
+            {"type":"row","name":"","label":"","size":12,"id":"","options":"","others":[]}
         ], // list of field
         // type of inputs
         typ: [
@@ -606,6 +607,14 @@ var app = new Vue({
             this.old = '';
         },
         changeTheme: function () {
+        },
+        copy: function () {
+            var dummyInput = document.createElement('textarea');
+            document.body.appendChild(dummyInput);
+            dummyInput.value = document.querySelector('#code').innerText;
+            dummyInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummyInput);
         },
     },
 
