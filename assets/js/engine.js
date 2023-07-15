@@ -118,7 +118,8 @@ var app = new Vue({
         theme: 'bootstrap', // default theme
         method: 'get', // default methods
         old: '',
-        flds: [], // list of field
+        flds: [
+        ], // list of field
         // type of inputs
         typ: [
             'row',
@@ -127,6 +128,7 @@ var app = new Vue({
             'select',
             'submit',
             'form-divider',
+            'switch'
         ],
         // raw field for edit
         raw: {
@@ -177,13 +179,23 @@ var app = new Vue({
 
             switch (this.theme) {
                 case "bootstrap":
+
+                    let defClass = '';
+                    if (field.option == 'checkbox' || field.option == 'radio'){
+                       defClass = 'class="form-check-label"';
+                    }
                     // make bootstrap column
                     out += `\t\t <div class="col-md-${field.size} mt-3">\n`;
                     out += `\t\t\t <div class="form-group">\n`;
-                    out += `\t\t\t\t <label for="${field.id}"> \n`;
+                    if (defClass == 'class="form-check-label"'){
+                        out += inp;
+                    }
+                    out += `\t\t\t\t <label for="${field.id}" ${defClass}> \n`;
                     out += `\t\t\t\t\t {{__('${field.label}')}} \n`;
                     out += `\t\t\t\t </label> \n`;
-                    out += inp;
+                    if (defClass != 'class="form-check-label"'){
+                        out += inp;
+                    }
                     out += `\t\t\t </div>\n`;
                     out += `\t\t </div>\n`;
 
@@ -277,7 +289,7 @@ var app = new Vue({
                     }
                 }
 
-                if(field.id == ''){
+                if (field.id == '') {
                     field.id = field.name;
                 }
 
@@ -306,10 +318,10 @@ var app = new Vue({
                         // handle bootstrap class
                         if (this.theme == 'bootstrap') {
                             if (field.option == 'file') {
-                                var genClass = 'form-control-file' + ` @error('${field.name}') is-invalid @enderror`;
+                                var genClass = 'form-control' + ` @error('${field.name}') is-invalid @enderror`;
                             } else if (field.option == 'checkbox') {
-                                var genClass = 'float-left ml-4 mt-1 form-check-inline' + ` @error('${field.name}') is-invalid @enderror`;
-                            } else{
+                                var genClass = 'form-check-input' + ` @error('${field.name}') is-invalid @enderror`;
+                            } else {
                                 var genClass = generalClass + ` @error('${field.name}') is-invalid @enderror`;
                             }
                         } else
@@ -390,7 +402,7 @@ var app = new Vue({
                         inp += `\t\t\t\t @foreach(${rs} as ${r} ) \n`;
                         inp += `\t\t\t\t\t <option value="{{ ${r}->${key} }}" ${old} > {{${r}->${title}}} </option> \n`;
                         inp += `\t\t\t\t @endforeach \n`;
-                        inp += '\t\t\t </select>';
+                        inp += '\t\t\t </select>\n';
 
                         out += this.makeLabel(field, inp);
                         break;
@@ -398,7 +410,7 @@ var app = new Vue({
 
                         switch (this.theme) {
                             case "bootstrap":
-                                out += `\t\t <div class="col-md-${field.size}">\n`;
+                                out += `\t\t <div class="col-12">\n`;
                                 var genClass = 'btn btn-primary mt-2';
 
                                 break;
@@ -440,6 +452,70 @@ var app = new Vue({
                             default:
                                 console.log('unknow theme');
                         }
+                        break;
+                    case  'switch':
+
+                        var old = '';
+                        if (this.old.trim() !== '') {
+                            old = ',' + this.old.replace('#name', field.name);
+                        }
+                        if (attrs.indexOf('value') === -1){
+                            attrs = ' value="1" ';
+                        }
+                        switch (this.theme) {
+                            case "bootstrap":
+                                // make bootstrap column
+                                out += `\t\t <div class="col-md-${field.size} mt-3">\n`;
+                                out += `\t\t\t <div class="form-check form-switch">\n`;
+                                out += `\t\t\t\t <input class="form-check-input  ${additinalCls} @error('${field.name}') is-invalid @enderror"  
+                                    name="${field.name}" type="checkbox" id="${field.id}" @if(old('${field.name}'${old}) == 1) checked="" @endif
+                                    ${attrs}> \n`;
+                                out += `\t\t\t\t <label for="${field.id}"> \n`;
+                                out += `\t\t\t\t\t {{__('${field.label}')}} \n`;
+                                out += `\t\t\t\t </label> \n`;
+                                out += `\t\t\t </div>\n`;
+                                out += `\t\t </div>\n`;
+
+                                break;
+                            case "semanticui":
+                                // make semanticui column
+                                out += `\t\t <div class="${$.trim(inWords(field.size))} wide column">\n`;
+                                out += `\t\t\t <div class="field">\n`;
+                                out += `\t\t\t\t <div class="ui toggle checkbox  @error('${field.name}') error @enderror"> \n`;
+                                out += `\t\t\t\t <input type="checkbox @error('${field.name}') invalid @enderror ${additinalCls}" name="${field.name}"  ${attrs}
+                                    id="${field.id}" @if(old('${field.name}'${old}) == 1) checked="" @endif> \n ` ;
+                                out += `\t\t\t\t\t <label for="${field.id}"> \n`;
+                                out += `\t\t\t\t\t\t {{__('${field.label}')}} \n`;
+                                out += `\t\t\t\t\t </label> \n`;
+                                out += `\t\t\t\t </div> \n`;
+                                out += `\t\t\t </div>\n`;
+                                out += `\t\t </div>\n`;
+
+                                break;
+                            case "materialize":
+                                // make bootstrap column
+                                out += `\t\t <div class="input-field col s${field.size}">\n`;
+                                out += `\t\t\t <div class="switch">\n`;
+
+                                out += `\t\t\t\t <label for="${field.id}"> \n`;
+                                out += `\t\t\t\t\t <input type="checkbox ${additinalCls}" name="${field.name}"  ${attrs}
+                                    id="${field.id}" @if(old('${field.name}'${old}) == 1) checked="" @endif> \n ` ;
+                                out += `\t\t\t\t\t <span class="lever"></span> \n`;
+                                out += `\t\t\t\t\t {{__('${field.label}')}} \n`;
+                                out += `\t\t\t\t </label> \n`;
+
+                                out += `\t\t\t </div>\n`;
+                                out += `\t\t </div>\n`;
+
+                                break;
+                            default:
+
+                        }
+
+                        // genClass += additinalCls;
+                        // out += `\t\t\t <label> &nbsp; </label> \n`;
+                        // out += `\t\t\t <input name="${field.name}"  id="${field.id}" type="submit" class="${genClass}" value="{{__('${field.label}')}}"  ${attrs} /> \n`;
+                        // out += `\t\t </div>\n`;
                         break;
                 }
             }
