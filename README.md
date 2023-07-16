@@ -4,7 +4,7 @@ The laravel form builder code generator
 **_The generated form can be use in `CREATE FORM` and `EDIT FORM` together._**
  
 ## supported frameworks
-- Bootstrap 3.x, 4.x
+- Bootstrap 3.x, 4.x, 5.x
 - Semantic UI all version
 - Materialize css all version 
 
@@ -14,6 +14,7 @@ The laravel form builder code generator
 - select (full auto generate )
 - textarea
 - submit 
+- switch (toggle) input
 - form divider
 - all form methods
 - move elements
@@ -25,6 +26,8 @@ It's so easy, Let's go (O_x)
  
  ## Online demo
 http://4xmen.ir/laravel-form-builder/
+
+
 
 ![Scrren shot](laravel-form-bulider-code-screen-shot.png?raw=true "Scrrenshot")
 
