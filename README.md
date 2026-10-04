@@ -25,7 +25,7 @@ The laravel form builder code generator
 It's so easy, Let's go (O_x)
  
  ## Online demo
-http://4xmen.ir/laravel-form-builder/
+http://4xmen.com/laravel-form-builder/
 
 
 
@@ -55,4 +55,4 @@ If you like it just star project to support us.
 
 cheers the 4xmen team :-P
 
-http://4xmen.ir
+http://4xmen.com
