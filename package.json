@@ -27,7 +27,7 @@
   "homepage": "https://github.com/4xmen/laravel-form-builder#readme",
   "dependencies": {
     "highlightjs": "^9.12.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "semantic-ui-css": "^2.4.1",
     "vazir-font": "^21.0.1",
     "vue": "^2.6.10"
